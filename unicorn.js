@@ -4,7 +4,7 @@ const reColors = /^(black|red|green|yellow|blue|magenta|cyan|white|gray|grey)$/;
 const reFontWeights = /^(bold)$/;
 const reFontStyles = /^(italic)$/;
 
-module.exports = function makeTitle(raw) {
+module.exports = function unicorn(raw) {
   const text = raw.trim();
   const matches = text.split(reSplit);
 
@@ -18,7 +18,7 @@ module.exports = function makeTitle(raw) {
     matches.shift();
   }
 
-  const titles = [];
+  const texts = [];
   const styles = [];
 
   for (const [i, match] of matches.entries()) {
@@ -52,12 +52,11 @@ module.exports = function makeTitle(raw) {
           .join("; ")
       );
     } else {
-      titles.push(part);
+      texts.push(part);
     }
   }
 
-  // Build title
-  const title = titles.map((str) => `%c${str.trim()}`).join(" ");
+  const colored = texts.map((str) => `%c${str.trim()}`).join(" ");
 
-  return [title].concat(styles);
+  return [colored].concat(styles);
 };

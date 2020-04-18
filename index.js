@@ -1,12 +1,12 @@
-const unicorn = require("./title");
+const unicorn = require("./unicorn");
 
 module.exports = function consoleUnicorn() {
   const args = Array.from(arguments);
   const text = args.shift();
 
-  const title = unicorn(text);
+  const colored = unicorn(text);
 
-  for (const arg of title.reverse()) {
+  for (const arg of colored.reverse()) {
     args.unshift(arg);
   }
 

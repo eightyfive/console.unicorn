@@ -8,6 +8,10 @@ module.exports = function makeTitle(raw) {
   const text = raw.trim();
   const matches = text.split(reSplit);
 
+  if (matches.length === 1) {
+    return [text];
+  }
+
   const starts = text.indexOf("{") === 0;
 
   if (starts) {

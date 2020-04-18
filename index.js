@@ -1,10 +1,10 @@
-const makeTitle = require("./title");
+const unicorn = require("./title");
 
-module.exports = function consoleTitle() {
+module.exports = function consoleUnicorn() {
   const args = Array.from(arguments);
   const text = args.shift();
 
-  const title = makeTitle(text);
+  const title = unicorn(text);
 
   for (const arg of title.reverse()) {
     args.unshift(arg);

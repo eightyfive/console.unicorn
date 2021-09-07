@@ -5,41 +5,41 @@ const reColors = /^(black|red|green|yellow|blue|magenta|cyan|white|gray|grey)$/;
 const reFontWeights = /^(bold)$/;
 const reFontStyles = /^(italic)$/;
 
-module.exports = function parse(raw) {
-  const matches = raw.split(reSplit).filter((str) => str.trim());
+module.exports = function parse(msg) {
+  const parts = msg.split(reSplit);
 
-  if (matches.length < 2) {
-    return [raw];
+  if (parts.length < 2) {
+    return [msg];
   }
 
   const texts = [];
   const styles = [];
 
-  for (const text of matches) {
-    const [, style] = reStyle.exec(text) || [];
+  for (const part of parts) {
+    const [, style] = reStyle.exec(part) || [];
 
     if (style) {
       styles.push(createStyle(style));
     } else {
-      texts.push(text);
+      texts.push(part);
     }
   }
 
-  const label = createLabel(texts, styles);
+  const placeholder = createPlaceholder(texts, styles);
 
-  return [label].concat(styles);
+  return [placeholder].concat(styles);
 };
 
-function createLabel(texts, styles) {
-  const label = texts.map((str) => `%c${str}`).join("");
+function createPlaceholder(texts, styles) {
+  const placeholder = texts.map((str) => `%c${str}`).join("");
 
   const startsWithStyle = texts.length === styles.length;
 
   if (startsWithStyle) {
-    return label;
+    return placeholder;
   }
 
-  return label.substr(2);
+  return placeholder.substr(2);
 }
 
 function createStyle(style) {

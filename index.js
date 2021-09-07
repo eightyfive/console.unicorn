@@ -1,14 +1,7 @@
-const unicorn = require("./unicorn");
+const getArgs = require("./unicorn");
 
-module.exports = function consoleUnicorn() {
-  const args = Array.from(arguments);
-  const text = args.shift();
+module.exports = function consoleUnicorn(text, ...args) {
+  const coloredArgs = getArgs(text);
 
-  const colored = unicorn(text);
-
-  for (const arg of colored.reverse()) {
-    args.unshift(arg);
-  }
-
-  console.log.apply(console, args);
+  console.log.apply(console, [...coloredArgs, ...args]);
 };

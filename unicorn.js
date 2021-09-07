@@ -1,62 +1,67 @@
-const reSplit = /{([^}]+)}/g;
-const reStyle = /^{[^}]+}$/;
+const reSplit = /({[^}]+})/g;
+const reStyle = /^{([^}]+)}$/;
+
 const reColors = /^(black|red|green|yellow|blue|magenta|cyan|white|gray|grey)$/;
 const reFontWeights = /^(bold)$/;
 const reFontStyles = /^(italic)$/;
 
 module.exports = function unicorn(raw) {
-  const text = raw.trim();
-  const matches = text.split(reSplit);
+  const matches = raw.split(reSplit).filter((str) => str.trim());
 
-  if (matches.length === 1) {
-    return [text];
-  }
-
-  const starts = text.indexOf("{") === 0;
-
-  if (starts) {
-    matches.shift();
+  if (matches.length < 2) {
+    return [raw];
   }
 
   const texts = [];
   const styles = [];
 
-  for (const [i, match] of matches.entries()) {
-    const part = match.trim();
-    const even = i % 2 === 0;
+  for (const text of matches) {
+    const [, style] = reStyle.exec(text) || [];
 
-    const isStyle = (even && starts) || (!even && !starts);
-
-    if (isStyle) {
-      styles.push(
-        part
-          .split(";")
-          .filter((str) => str.trim())
-          .map((str) => {
-            const prop = str.trim();
-
-            if (reColors.test(prop)) {
-              return `color: ${prop}`;
-            }
-
-            if (reFontWeights.test(prop)) {
-              return `font-weight: ${prop}`;
-            }
-
-            if (reFontStyles.test(prop)) {
-              return `font-style: ${prop}`;
-            }
-
-            return prop;
-          })
-          .join("; ")
-      );
+    if (style) {
+      styles.push(createStyle(style));
     } else {
-      texts.push(part);
+      texts.push(text);
     }
   }
 
-  const colored = texts.map((str) => `%c${str.trim()}`).join(" ");
+  const label = createLabel(texts, styles);
 
-  return [colored].concat(styles);
+  return [label].concat(styles);
 };
+
+function createLabel(texts, styles) {
+  const label = texts.map((str) => `%c${str}`).join("");
+
+  const startsWithStyle = texts.length === styles.length;
+
+  if (startsWithStyle) {
+    return label;
+  }
+
+  return label.substr(2);
+}
+
+function createStyle(style) {
+  return style
+    .trim()
+    .split(";")
+    .map((str) => str.trim())
+    .filter(Boolean)
+    .map((prop) => {
+      if (reColors.test(prop)) {
+        return `color: ${prop}`;
+      }
+
+      if (reFontWeights.test(prop)) {
+        return `font-weight: ${prop}`;
+      }
+
+      if (reFontStyles.test(prop)) {
+        return `font-style: ${prop}`;
+      }
+
+      return prop;
+    })
+    .join("; ");
+}

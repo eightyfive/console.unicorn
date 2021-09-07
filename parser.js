@@ -5,7 +5,7 @@ const reColors = /^(black|red|green|yellow|blue|magenta|cyan|white|gray|grey)$/;
 const reFontWeights = /^(bold)$/;
 const reFontStyles = /^(italic)$/;
 
-module.exports = function unicorn(raw) {
+module.exports = function parse(raw) {
   const matches = raw.split(reSplit).filter((str) => str.trim());
 
   if (matches.length < 2) {

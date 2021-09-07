@@ -1,7 +1,7 @@
-const getArgs = require("./unicorn");
+const parse = require("./parser");
 
 module.exports = function consoleUnicorn(text, ...args) {
-  const coloredArgs = getArgs(text);
+  const coloredArgs = parse(text);
 
   console.log.apply(console, [...coloredArgs, ...args]);
 };

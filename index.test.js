@@ -1,4 +1,4 @@
-const parse = require("./parser");
+const parse = require("./index");
 
 it("colors output 1", () => {
   const args = parse(

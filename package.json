@@ -3,11 +3,10 @@
   "version": "0.1.2",
   "scripts": {
     "test": "jest",
-    "release": "np --no-draft-release"
+    "release": "np"
   },
-  "dependencies": {},
   "devDependencies": {
-    "jest": "^25.3.0",
-    "prettier": "^2.3.2"
+    "jest": "^28.1.2",
+    "prettier": "^2.7.1"
   }
 }

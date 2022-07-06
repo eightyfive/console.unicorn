@@ -1,35 +1,29 @@
-const log = require("./index");
+const parse = require("./parser");
 
-const logSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+it("colors output 1", () => {
+  const args = parse(
+    "{color: green; font-weight: bold;}I am hulk {color: red; font-style: italic}I am flash"
+  );
 
-beforeEach(() => {
-  jest.clearAllMocks();
-});
-
-it("logs colored", () => {
-  log("{green; bold}I am hulk {red; italic;}I am flash");
-
-  expect(logSpy).toHaveBeenCalledWith(
+  expect(args).toEqual([
     "%cI am hulk %cI am flash",
     "color: green; font-weight: bold",
-    "color: red; font-style: italic"
-  );
+    "color: red; font-style: italic",
+  ]);
 });
 
-it("logs normally", () => {
-  log("I am a normal citizen");
+it("colors output 2", () => {
+  const args = parse(" I am a normal citizen {color: blue}I am AVATAR");
 
-  expect(logSpy).toHaveBeenCalledWith("I am a normal citizen");
+  expect(args).toEqual([" I am a normal citizen %cI am AVATAR", "color: blue"]);
 });
 
-it("logs var", () => {
-  const foo = "bar";
+it("colors using aliases", () => {
+  const args = parse("{green; bold}I am hulk {red; italic;}I am flash");
 
-  log("{green; bold}I am hulk", foo);
-
-  expect(logSpy).toHaveBeenCalledWith(
-    "%cI am hulk",
+  expect(args).toEqual([
+    "%cI am hulk %cI am flash",
     "color: green; font-weight: bold",
-    "bar"
-  );
+    "color: red; font-style: italic",
+  ]);
 });

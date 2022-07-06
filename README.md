@@ -6,7 +6,7 @@
 log("{green; bold}I am hulk");
 ```
 
-<img src="images/hulk.png" width="300" />
+<img src="images/hulk.png" />
 
 ## I am Flash
 
@@ -14,7 +14,7 @@ log("{green; bold}I am hulk");
 log("{red; italic}I am flash");
 ```
 
-<img src="images/flash.png" width="300" />
+<img src="images/flash.png" />
 
 ## I AM A UNICORN
 
@@ -22,7 +22,7 @@ log("{red; italic}I am flash");
 log("I am a {red}u{green}N{blue}i{yellow}C{magenta}o{cyan}R{white}N");
 ```
 
-<img src="images/unicorn.png" width="300" />
+<img src="images/unicorn.png" />
 
 ## Usage
 
